@@ -14,6 +14,8 @@
         ./modules/network/network.nix
         ./modules/network/dns.nix
         ./modules/network/firewall.nix
+        ./modules/desktop/gnome/gnome.nix
+        ./modules/desktop/gnome/autologin.nix
       ];
     };
   };
