@@ -9,8 +9,11 @@
     nixosConfigurations.fluffypal = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
+        ./user/fluffypal/fluffypal.nix
         ./configuration.nix
-	./user/fluffypal/fluffypal.nix
+        ./modules/network/network.nix
+        ./modules/network/dns.nix
+        ./modules/network/firewall.nix
       ];
     };
   };
