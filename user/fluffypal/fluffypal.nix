@@ -5,7 +5,7 @@
     description = "FluffyPal";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
+      helix
     ];
   };
 }
