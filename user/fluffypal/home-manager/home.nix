@@ -9,7 +9,8 @@
     ./bash.nix
     ./autostart.nix
   ];
-  
+  programs.home-manager.enable = true;
+
   home.username = "fluffypal";
   home.homeDirectory = "/home/fluffypal";
 
