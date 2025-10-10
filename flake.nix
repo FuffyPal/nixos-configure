@@ -12,6 +12,9 @@
   outputs = { self, nixpkgs, home-manager, ... }:
   let
     inherit (nixpkgs.lib) nixosSystem;
+    userName = "default_user_name"; 
+    userEmail = "default_user_email@example.com"; 
+
     fluffypalModules = [
       ./user/fluffypal/fluffypal.nix
       ./configuration.nix
@@ -52,6 +55,10 @@
       fluffypal = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         modules = [ ./user/fluffypal/home-manager/home.nix ];
+        specialArgs = {
+          userName = userName;
+          userEmail = userEmail;
+        };
       };
     };
   };
