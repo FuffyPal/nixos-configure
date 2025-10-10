@@ -16,9 +16,9 @@
         ./modules/network/firewall.nix
         ./modules/desktop/gnome/gnome.nix
         ./modules/desktop/gnome/autologin.nix
-        ./modules/boot/boot.nix
-        ./modules/locale/locale.nix
-        ./modules/xserver/xserver.nix
+        ./modules/system/boot/boot.nix
+        ./modules/system/locale/locale.nix
+        ./modules/system/xserver/xserver.nix
       ];
     };
   };
