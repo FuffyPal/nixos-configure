@@ -15,8 +15,8 @@
 
     # These variables will be passed to all NixOS and Home Manager modules
     # via specialArgs.
-    myUserName = "default_user_name"; # Kullanıcı adınızı buraya girin
-    myUserEmail = "default_user_email@example.com"; # E-posta adresinizi buraya girin
+    GitUserName = "default_user_name"; # Kullanıcı adınızı buraya girin
+    GitUserEmail = "default_user_email@example.com"; # E-posta adresinizi buraya girin
 
     # Common NixOS modules for all fluffypal configurations
     fluffypalBaseModules = [
@@ -47,27 +47,42 @@
       fluffypal = nixosSystem {
         system = "x86_64-linux";
         modules = fluffypalBaseModules;
-        specialArgs = { inherit myUserName myUserEmail; };
+        specialArgs = {
+          GitUserName = GitUserName;
+          GitUserEmail = GitUserEmail;
+        };
       };
       fluffypal-nvidia = nixosSystem {
         system = "x86_64-linux";
         modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia.nix ];
-        specialArgs = { inherit myUserName myUserEmail; };
+        specialArgs = {
+          GitUserName = GitUserName;
+          GitUserEmail = GitUserEmail;
+        };
       };
       fluffypal-nvidia-open = nixosSystem {
         system = "x86_64-linux";
         modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia-open-kernel.nix ];
-        specialArgs = { inherit myUserName myUserEmail; };
+        specialArgs = {
+          GitUserName = GitUserName;
+          GitUserEmail = GitUserEmail;
+        };
       };
       fluffypal-nvidia-turing = nixosSystem {
         system = "x86_64-linux";
         modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia-turing.nix ];
-        specialArgs = { inherit myUserName myUserEmail; };
+        specialArgs = {
+          GitUserName = GitUserName;
+          GitUserEmail = GitUserEmail;
+        };
       };
       fluffypal-nvidia-open-turing = nixosSystem {
         system = "x86_64-linux";
         modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia-turing-open-kernel.nix ];
-        specialArgs = { inherit myUserName myUserEmail; };
+        specialArgs = {
+          GitUserName = GitUserName;
+          GitUserEmail = GitUserEmail;
+        };
       };
     };
   };
