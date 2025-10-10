@@ -12,10 +12,14 @@
   outputs = { self, nixpkgs, home-manager, ... }:
   let
     inherit (nixpkgs.lib) nixosSystem;
-    userName = "default_user_name";
-    userEmail = "default_user_email@example.com";
 
-    fluffypalModules = [
+    # These variables will be passed to all NixOS and Home Manager modules
+    # via specialArgs.
+    myUserName = "default_user_name"; # Kullanıcı adınızı buraya girin
+    myUserEmail = "default_user_email@example.com"; # E-posta adresinizi buraya girin
+
+    # Common NixOS modules for all fluffypal configurations
+    fluffypalBaseModules = [
       ./user/fluffypal/fluffypal.nix
       ./configuration.nix
       ./modules/network/network.nix
@@ -26,39 +30,44 @@
       ./modules/system/boot/boot.nix
       ./modules/system/locale/locale.nix
       ./modules/system/xserver/xserver.nix
+
+      # Home Manager as a NixOS module
+      home-manager.nixosModules.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        # Import the main Home Manager configuration for fluffypal
+        home-manager.users.fluffypal = import ./user/fluffypal/home-manager/home.nix;
+      }
     ];
+
   in
   {
     nixosConfigurations = {
       fluffypal = nixosSystem {
         system = "x86_64-linux";
-        modules = fluffypalModules;
+        modules = fluffypalBaseModules;
+        specialArgs = { inherit myUserName myUserEmail; };
       };
       fluffypal-nvidia = nixosSystem {
         system = "x86_64-linux";
-        modules = fluffypalModules ++ [ ./modules/hardware/nvidia/nvidia.nix ];
+        modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia.nix ];
+        specialArgs = { inherit myUserName myUserEmail; };
       };
       fluffypal-nvidia-open = nixosSystem {
         system = "x86_64-linux";
-        modules = fluffypalModules ++ [ ./modules/hardware/nvidia/nvidia-open-kernel.nix ];
+        modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia-open-kernel.nix ];
+        specialArgs = { inherit myUserName myUserEmail; };
       };
       fluffypal-nvidia-turing = nixosSystem {
         system = "x86_64-linux";
-        modules = fluffypalModules ++ [ ./modules/hardware/nvidia/nvidia-turing.nix ];
+        modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia-turing.nix ];
+        specialArgs = { inherit myUserName myUserEmail; };
       };
       fluffypal-nvidia-open-turing = nixosSystem {
         system = "x86_64-linux";
-        modules = fluffypalModules ++ [ ./modules/hardware/nvidia/nvidia-turing-open-kernel.nix ];
-      };
-    };
-    homeConfigurations = {
-      fluffypal = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        modules = [ ./user/fluffypal/home-manager/home.nix ];
-        specialArgs = {
-          userName = userName;
-          userEmail = userEmail;
-        };
+        modules = fluffypalBaseModules ++ [ ./modules/hardware/nvidia/nvidia-turing-open-kernel.nix ];
+        specialArgs = { inherit myUserName myUserEmail; };
       };
     };
   };
