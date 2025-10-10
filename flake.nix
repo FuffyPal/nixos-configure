@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -12,8 +12,8 @@
   outputs = { self, nixpkgs, home-manager, ... }:
   let
     inherit (nixpkgs.lib) nixosSystem;
-    userName = "default_user_name"; 
-    userEmail = "default_user_email@example.com"; 
+    userName = "default_user_name";
+    userEmail = "default_user_email@example.com";
 
     fluffypalModules = [
       ./user/fluffypal/fluffypal.nix
