@@ -3,7 +3,7 @@
 {
   programs.git = {
     enable = true;
-    userName = specialArgs.myUserName;
-    userEmail = specialArgs.myUserEmail;
+    userName = specialArgs.GitUserName;
+    userEmail = specialArgs.GitUserEmail;
   };
 }
