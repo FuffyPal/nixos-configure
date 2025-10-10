@@ -3,9 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, nixpkgs, home-manager, ... }:
   let
     inherit (nixpkgs.lib) nixosSystem;
     fluffypalModules = [
@@ -42,6 +46,12 @@
       fluffypal-nvidia-open-turing = nixosSystem {
         system = "x86_64-linux";
         modules = fluffypalModules ++ [ ./modules/hardware/nvidia/nvidia-turing-open-kernel.nix ];
+      };
+    };
+    homeConfigurations = {
+      fluffypal = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        modules = [ ./user/fluffypal/home-manager/home.nix ];
       };
     };
   };
